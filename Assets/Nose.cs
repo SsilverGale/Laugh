@@ -10,7 +10,7 @@ public class Nose : MonoBehaviour
 
     public Text debugText;
 
-    public Button buttonOne;
+    public Button noseButton;
 
     void Start()
     {
@@ -21,9 +21,9 @@ public class Nose : MonoBehaviour
     void Update()
     {
         debugText.text = laughter.ToString();
-        //if (buttonOne.click == true)
-        {
-            laughter++;
-        }
+    }
+    public void laugh()
+    {
+        laughter++;
     }
 }
