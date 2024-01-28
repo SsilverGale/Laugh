@@ -93,6 +93,10 @@ public class Nose : MonoBehaviour
         {
             anger = anger + (50 - laughter);
         }
+        else
+        {
+            anger--;
+        }
         if (anger >= tooAngery)
         {
             lose();
