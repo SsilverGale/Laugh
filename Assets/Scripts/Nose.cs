@@ -31,7 +31,25 @@ public class Nose : MonoBehaviour
     public AudioClip laugh15;
     public AudioClip laugh16;
 
+    public AudioClip caught1;
+    public AudioClip caught2;
+    public AudioClip caught3; 
+    public AudioClip caught4;
+    public AudioClip caught5;
+    public AudioClip caught6;
+    public AudioClip caught7;
+    public AudioClip caught8;
+    public AudioClip caught9;
+    public AudioClip caught10;
+    public AudioClip caught11;
+
+
+    [SerializeField] GameObject loseScreen;
+
     int decay =0;
+
+    [SerializeField] float anger = 0;
+    [SerializeField] int tooAngery;
 
     public Slider progressBar;
 
@@ -39,6 +57,7 @@ public class Nose : MonoBehaviour
     [SerializeField] public int decayRateMax;
     [SerializeField] public int decayRate;
 
+    
 
     void Start()
     {
@@ -53,16 +72,33 @@ public class Nose : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        //Code for making the meter go down
         if (decay >= decayRate && laughter > 0)
         {
             laughter--;
             decay = 0;
+            //Randomize next decay interval
             decayRate = Random.Range(decayRateMin, decayRateMax);
         }
         else
         {
             decay++;
         }
+        //If laugher it out of ideal range progress towards losing
+        if (laughter > 60)
+        {
+            anger = anger + (laughter - 50);
+        }
+        else if (laughter < 40)
+        {
+            anger = anger + (50 - laughter);
+        }
+        if (anger >= tooAngery)
+        {
+            lose();
+            anger = -10000000;
+        }
+
     }
     public void laugh()
     {
@@ -117,6 +153,49 @@ public class Nose : MonoBehaviour
                 break;
             case 16:
                 honk.clip = laugh16;
+                break;
+        }
+        honk.Play();
+    }
+
+    public void lose()
+    {
+        loseScreen.SetActive(true);
+        int i = Random.Range(1, 11);
+        switch (i)
+        {
+            case 1:
+                honk.clip = caught1;
+                break;
+            case 2:
+                honk.clip = caught2;
+                break;
+            case 3:
+                honk.clip = caught3;
+                break;
+            case 4:
+                honk.clip = caught4;
+                break;
+            case 5:
+                honk.clip = caught5;
+                break;
+            case 6:
+                honk.clip = caught6;
+                break;
+            case 7:
+                honk.clip = caught7;
+                break;
+            case 8:
+                honk.clip = caught8;
+                break;
+            case 9:
+                honk.clip = caught9;
+                break;
+            case 10:
+                honk.clip = caught10;
+                break;
+            case 11:
+                honk.clip = caught11;
                 break;
         }
         honk.Play();
