@@ -8,10 +8,6 @@ public class Nose : MonoBehaviour
     // Start is called before the first frame update
     public float laughter = 0;
 
-    public Text debugText;
-
-    public Button noseButton;
-
     public AudioSource honk;
     
     public AudioClip laugh1;
@@ -43,6 +39,9 @@ public class Nose : MonoBehaviour
     public AudioClip caught10;
     public AudioClip caught11;
 
+    public GameObject ClownSad;
+    public GameObject ClownHappy;
+    public GameObject ClownBursting;
 
     [SerializeField] GameObject loseScreen;
 
@@ -57,17 +56,19 @@ public class Nose : MonoBehaviour
     [SerializeField] public int decayRateMax;
     [SerializeField] public int decayRate;
 
-    
+    private bool gameActive;
+    private int timeAlive;
+    public Text timerText;
 
     void Start()
     {
-        
+        gameActive = true;
+        StartCoroutine("Timer");
     }
 
     // Update is called once per frame
     void Update()
     {
-        debugText.text = laughter.ToString();
         progressBar.value = laughter / 100;
     }
     private void FixedUpdate()
@@ -88,14 +89,21 @@ public class Nose : MonoBehaviour
         if (laughter > 60)
         {
             anger = anger + (laughter - 50);
+            ClownHappy.SetActive(false);
+            ClownBursting.SetActive(true);
         }
         else if (laughter < 40)
         {
             anger = anger + (50 - laughter);
+            ClownHappy.SetActive(false);
+            ClownSad.SetActive(true);
         }
         else
         {
             anger--;
+            ClownHappy.SetActive(true);
+            ClownBursting.SetActive(false);
+            ClownSad.SetActive(false);
         }
         if (anger >= tooAngery)
         {
@@ -164,6 +172,7 @@ public class Nose : MonoBehaviour
 
     public void lose()
     {
+        gameActive = false;
         loseScreen.SetActive(true);
         int i = Random.Range(1, 11);
         switch (i)
@@ -203,5 +212,15 @@ public class Nose : MonoBehaviour
                 break;
         }
         honk.Play();
+    }
+
+    private IEnumerator Timer()
+    {
+        while(gameActive == true)
+        {
+            timeAlive += 1;
+            timerText.text = "Time Survived: " + timeAlive + " seconds";
+            yield return new WaitForSeconds(1);
+        }
     }
 }
