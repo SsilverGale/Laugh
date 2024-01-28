@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -21,5 +22,10 @@ public class PlayerMovement : MonoBehaviour
             body.AddForce(-moveSpeed * transform.right);
             Debug.Log("left");
         }
+    }
+    void OnCollisionEnter(Collision collision)
+    {
+        SceneManager.LoadScene("Honk Honk");
+        Debug.Log("colliding");
     }
 }
